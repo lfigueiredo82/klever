@@ -14,7 +14,7 @@ message CryptoCurrency {
     string Name = 1;
 }
 
-message Cryptos {
+message CryptoReply {
     repeated CryptoCurrency criptos = 1;
 }
 
@@ -23,7 +23,7 @@ message TotalVotes {
 }
 
 service VoteService {
-    rpc ReadCryptoCurrencies(google.protobuf.Empty) returns (Cryptos);
+    rpc ReadCryptoCurrencies(google.protobuf.Empty) returns (CryptoReply);
     rpc AddCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
     rpc UpdateCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
     rpc RemoveCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
