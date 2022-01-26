@@ -8,8 +8,8 @@ func ReadAllCryptoCurrency(client *redis.Client) []string {
 	result, _ := client.Keys("*").Result()
 	return result
 }
-func CreateCryptoCurrency(client *redis.Client, cripto string) {
-	client.Set(cripto, 0, 0)
+func CreateCryptoCurrency(client *redis.Client, cripto string, data interface{}) {
+	client.Set(cripto, data, 0)
 }
 
 func UpdateCryptoCurrency(client *redis.Client, oldCriptoName, newCryptoName string, value int64) {

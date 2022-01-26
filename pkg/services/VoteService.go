@@ -32,6 +32,15 @@ func (s *VoteService) ReadCryptoCurrencies(ctx context.Context, in *emptypb.Empt
 
 }
 
+func (s *VoteService) AddCryptoCurrency(ctx context.Context, cripto *pb.CryptoCurrency) (*pb.CryptoCurrency, error) {
+
+	client := connectOnRedis()
+
+	r.CreateCryptoCurrency(client, cripto.Code, cripto)
+
+	return &pb.CryptoCurrency{}, nil
+}
+
 func connectOnRedis() *redis.Client {
 	log.Println("Connecting on Redis...")
 	client := redis.NewClient(&redis.Options{

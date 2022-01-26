@@ -15,10 +15,6 @@ var (
 	port = flag.Int("port", 50051, "The server port")
 )
 
-type server struct {
-	pb.UnimplementedVoteServiceServer
-}
-
 func main() {
 
 	flag.Parse()

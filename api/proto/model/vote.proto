@@ -11,7 +11,10 @@ message Vote {
 }
 
 message CryptoCurrency {
-    string Name = 1;
+    string Code = 1;
+    string Name = 2;
+    int32 Decimals = 3;
+    bytes ImageSymbol = 4;
 }
 
 message CryptoReply {
