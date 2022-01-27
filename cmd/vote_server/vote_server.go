@@ -7,7 +7,7 @@ import (
 	"net"
 
 	pb "github.com/lfigueiredo82/klever/internal/pkg/core/model"
-	"github.com/lfigueiredo82/klever/pkg/services"
+	"github.com/lfigueiredo82/klever/pkg/vote_server/services"
 	"google.golang.org/grpc"
 )
 

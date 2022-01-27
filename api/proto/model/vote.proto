@@ -4,12 +4,16 @@ package core;
 
 import "google/protobuf/empty.proto";
 
+
 option go_package = "internal/pkg/core/model";
 
 message Vote {
     CryptoCurrency CryptoCurrency = 1;
 }
 
+message CryptoSymbol {
+    string Symbol = 1;
+}
 message CryptoCurrency {
     string Code = 1;
     string Name = 2;
@@ -29,7 +33,7 @@ service VoteService {
     rpc ReadCryptoCurrencies(google.protobuf.Empty) returns (CryptoReply);
     rpc AddCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
     rpc UpdateCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
-    rpc RemoveCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
+    rpc RemoveCryptoCurrency(CryptoSymbol) returns (google.protobuf.Empty);
     rpc SumVotesFromCryptoCurrency(CryptoCurrency) returns (TotalVotes);
     rpc Upvote(Vote) returns (Vote);
     rpc Downvote(Vote) returns (Vote);

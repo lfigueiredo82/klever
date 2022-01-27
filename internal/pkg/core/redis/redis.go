@@ -5,28 +5,35 @@ import (
 )
 
 func ReadAllCryptoCurrency(client *redis.Client) []string {
-	result, _ := client.Keys("*").Result()
+	result, _ := client.Keys("cryptos*").Result()
 	return result
 }
+
+func GetCryptoCurrency(client *redis.Client, key string) string {
+	return client.Get(key).Val()
+}
 func CreateCryptoCurrency(client *redis.Client, cripto string, data interface{}) {
-	client.Set(cripto, data, 0)
+	client.Set("cryptos"+":"+cripto+":info", data, 0)
 }
 
-func UpdateCryptoCurrency(client *redis.Client, oldCriptoName, newCryptoName string, value int64) {
-	val := client.Get(oldCriptoName).Val()
-	client.Set(newCryptoName, val, 0)
-	DeleteCryptoCurrency(client, oldCriptoName)
+func UpdateCryptoCurrency(client *redis.Client, oldCriptoCode, newCryptoCode string, data interface{}) {
+	val := client.Get("cryptos" + ":" + oldCriptoCode + ":info").Val()
+	if val != "" {
+		client.Set("cryptos"+":"+newCryptoCode+":info", data, 0)
+		keys := []string{"cryptos" + ":" + oldCriptoCode + ":info"}
+		client.Del(keys...)
+	}
 }
 
 func DeleteCryptoCurrency(client *redis.Client, cripto string) {
-	keys := []string{cripto}
+	keys := []string{"cryptos" + ":" + cripto + ":info", "cryptos" + ":" + cripto}
 	client.Del(keys...)
 }
 
 func UpvoteCrytoCurrency(client *redis.Client, cripto string) int64 {
-	return client.Incr(cripto).Val()
+	return client.Incr("cryptos" + ":" + cripto).Val()
 }
 
 func DownvoteCrytoCurrency(client *redis.Client, cripto string) int64 {
-	return client.Decr(cripto).Val()
+	return client.Decr("cryptos" + ":" + cripto).Val()
 }
