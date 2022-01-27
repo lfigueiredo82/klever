@@ -34,7 +34,7 @@ service VoteService {
     rpc AddCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
     rpc UpdateCryptoCurrency(CryptoCurrency) returns (CryptoCurrency);
     rpc RemoveCryptoCurrency(CryptoSymbol) returns (google.protobuf.Empty);
-    rpc SumVotesFromCryptoCurrency(CryptoCurrency) returns (TotalVotes);
-    rpc Upvote(Vote) returns (Vote);
-    rpc Downvote(Vote) returns (Vote);
+    rpc SumVotesFromCryptoCurrency(CryptoSymbol) returns (TotalVotes);
+    rpc Upvote(Vote) returns (google.protobuf.Empty);
+    rpc Downvote(Vote) returns (google.protobuf.Empty);
 }

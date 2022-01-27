@@ -23,9 +23,9 @@ type VoteServiceClient interface {
 	AddCryptoCurrency(ctx context.Context, in *CryptoCurrency, opts ...grpc.CallOption) (*CryptoCurrency, error)
 	UpdateCryptoCurrency(ctx context.Context, in *CryptoCurrency, opts ...grpc.CallOption) (*CryptoCurrency, error)
 	RemoveCryptoCurrency(ctx context.Context, in *CryptoSymbol, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	SumVotesFromCryptoCurrency(ctx context.Context, in *CryptoCurrency, opts ...grpc.CallOption) (*TotalVotes, error)
-	Upvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*Vote, error)
-	Downvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*Vote, error)
+	SumVotesFromCryptoCurrency(ctx context.Context, in *CryptoSymbol, opts ...grpc.CallOption) (*TotalVotes, error)
+	Upvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Downvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type voteServiceClient struct {
@@ -72,7 +72,7 @@ func (c *voteServiceClient) RemoveCryptoCurrency(ctx context.Context, in *Crypto
 	return out, nil
 }
 
-func (c *voteServiceClient) SumVotesFromCryptoCurrency(ctx context.Context, in *CryptoCurrency, opts ...grpc.CallOption) (*TotalVotes, error) {
+func (c *voteServiceClient) SumVotesFromCryptoCurrency(ctx context.Context, in *CryptoSymbol, opts ...grpc.CallOption) (*TotalVotes, error) {
 	out := new(TotalVotes)
 	err := c.cc.Invoke(ctx, "/core.VoteService/SumVotesFromCryptoCurrency", in, out, opts...)
 	if err != nil {
@@ -81,8 +81,8 @@ func (c *voteServiceClient) SumVotesFromCryptoCurrency(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *voteServiceClient) Upvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*Vote, error) {
-	out := new(Vote)
+func (c *voteServiceClient) Upvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/core.VoteService/Upvote", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -90,8 +90,8 @@ func (c *voteServiceClient) Upvote(ctx context.Context, in *Vote, opts ...grpc.C
 	return out, nil
 }
 
-func (c *voteServiceClient) Downvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*Vote, error) {
-	out := new(Vote)
+func (c *voteServiceClient) Downvote(ctx context.Context, in *Vote, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/core.VoteService/Downvote", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,9 +107,9 @@ type VoteServiceServer interface {
 	AddCryptoCurrency(context.Context, *CryptoCurrency) (*CryptoCurrency, error)
 	UpdateCryptoCurrency(context.Context, *CryptoCurrency) (*CryptoCurrency, error)
 	RemoveCryptoCurrency(context.Context, *CryptoSymbol) (*emptypb.Empty, error)
-	SumVotesFromCryptoCurrency(context.Context, *CryptoCurrency) (*TotalVotes, error)
-	Upvote(context.Context, *Vote) (*Vote, error)
-	Downvote(context.Context, *Vote) (*Vote, error)
+	SumVotesFromCryptoCurrency(context.Context, *CryptoSymbol) (*TotalVotes, error)
+	Upvote(context.Context, *Vote) (*emptypb.Empty, error)
+	Downvote(context.Context, *Vote) (*emptypb.Empty, error)
 	mustEmbedUnimplementedVoteServiceServer()
 }
 
@@ -129,13 +129,13 @@ func (UnimplementedVoteServiceServer) UpdateCryptoCurrency(context.Context, *Cry
 func (UnimplementedVoteServiceServer) RemoveCryptoCurrency(context.Context, *CryptoSymbol) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveCryptoCurrency not implemented")
 }
-func (UnimplementedVoteServiceServer) SumVotesFromCryptoCurrency(context.Context, *CryptoCurrency) (*TotalVotes, error) {
+func (UnimplementedVoteServiceServer) SumVotesFromCryptoCurrency(context.Context, *CryptoSymbol) (*TotalVotes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SumVotesFromCryptoCurrency not implemented")
 }
-func (UnimplementedVoteServiceServer) Upvote(context.Context, *Vote) (*Vote, error) {
+func (UnimplementedVoteServiceServer) Upvote(context.Context, *Vote) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upvote not implemented")
 }
-func (UnimplementedVoteServiceServer) Downvote(context.Context, *Vote) (*Vote, error) {
+func (UnimplementedVoteServiceServer) Downvote(context.Context, *Vote) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Downvote not implemented")
 }
 func (UnimplementedVoteServiceServer) mustEmbedUnimplementedVoteServiceServer() {}
@@ -224,7 +224,7 @@ func _VoteService_RemoveCryptoCurrency_Handler(srv interface{}, ctx context.Cont
 }
 
 func _VoteService_SumVotesFromCryptoCurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CryptoCurrency)
+	in := new(CryptoSymbol)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -236,7 +236,7 @@ func _VoteService_SumVotesFromCryptoCurrency_Handler(srv interface{}, ctx contex
 		FullMethod: "/core.VoteService/SumVotesFromCryptoCurrency",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VoteServiceServer).SumVotesFromCryptoCurrency(ctx, req.(*CryptoCurrency))
+		return srv.(VoteServiceServer).SumVotesFromCryptoCurrency(ctx, req.(*CryptoSymbol))
 	}
 	return interceptor(ctx, in, info, handler)
 }

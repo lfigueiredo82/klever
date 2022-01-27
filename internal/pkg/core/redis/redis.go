@@ -10,7 +10,7 @@ func ReadAllCryptoCurrency(client *redis.Client) []string {
 }
 
 func GetCryptoCurrency(client *redis.Client, key string) string {
-	return client.Get(key).Val()
+	return client.Get("cryptos:" + key).Val()
 }
 func CreateCryptoCurrency(client *redis.Client, cripto string, data interface{}) {
 	client.Set("cryptos"+":"+cripto+":info", data, 0)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -59,6 +60,32 @@ func (s *VoteService) RemoveCryptoCurrency(ctx context.Context, cripto *pb.Crypt
 	r.DeleteCryptoCurrency(client, cripto.Symbol)
 
 	return nil, nil
+}
+
+func (s *VoteService) Upvote(ctx context.Context, vote *pb.Vote) (*emptypb.Empty, error) {
+	client := connectOnRedis()
+	r.UpvoteCrytoCurrency(client, vote.CryptoCurrency.Code)
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *VoteService) Downvote(ctx context.Context, vote *pb.Vote) (*emptypb.Empty, error) {
+	client := connectOnRedis()
+	r.DownvoteCrytoCurrency(client, vote.CryptoCurrency.Code)
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *VoteService) SumVotesFromCryptoCurrency(ctx context.Context, cryptoSymbol *pb.CryptoSymbol) (*pb.TotalVotes, error) {
+	client := connectOnRedis()
+
+	value := r.GetCryptoCurrency(client, cryptoSymbol.Symbol)
+	if value != "" {
+		total, _ := strconv.ParseFloat(value, 64)
+		return &pb.TotalVotes{Votes: total}, nil
+	}
+	return &pb.TotalVotes{Votes: 0}, nil
+
 }
 
 func connectOnRedis() *redis.Client {
