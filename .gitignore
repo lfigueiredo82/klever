@@ -14,3 +14,4 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 cmd/vote_server/__debug_bin
+cmd/vote_server/.env

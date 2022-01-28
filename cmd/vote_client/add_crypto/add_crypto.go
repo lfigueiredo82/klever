@@ -8,12 +8,13 @@ import (
 
 	assets "github.com/lfigueiredo82/klever/cmd/vote_client/add_crypto/dependencies"
 	pb "github.com/lfigueiredo82/klever/internal/pkg/core/model"
+	"github.com/lfigueiredo82/klever/pkg/vote_server/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
-	addr = flag.String("addr", "localhost:50051", "the address to connect to")
+	addr = flag.String("addr", config.DefaultHost()+":50051", "the address to connect to")
 )
 
 func main() {
@@ -28,7 +29,7 @@ func main() {
 	c := pb.NewVoteServiceClient(conn)
 
 	// Contact the server and print out its response.
-	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*5)
 	defer cancel()
 
 	AddBitcoinCurrency(ctx, c)

@@ -7,6 +7,7 @@ import (
 	"net"
 
 	pb "github.com/lfigueiredo82/klever/internal/pkg/core/model"
+	"github.com/lfigueiredo82/klever/pkg/vote_server/config"
 	"github.com/lfigueiredo82/klever/pkg/vote_server/services"
 	"google.golang.org/grpc"
 )
@@ -18,7 +19,7 @@ var (
 func main() {
 
 	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
+	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.DefaultHost(), *port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
