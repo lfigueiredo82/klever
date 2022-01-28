@@ -7,6 +7,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/joho/godotenv"
 	pb "github.com/lfigueiredo82/klever/internal/pkg/core/model"
 	"github.com/lfigueiredo82/klever/pkg/vote_server/config"
 	"google.golang.org/grpc"
@@ -19,7 +20,7 @@ var (
 )
 
 func main() {
-
+	godotenv.Load()
 	flag.Parse()
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))

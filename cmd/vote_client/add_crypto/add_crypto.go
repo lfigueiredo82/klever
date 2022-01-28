@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/joho/godotenv"
 	assets "github.com/lfigueiredo82/klever/cmd/vote_client/add_crypto/dependencies"
 	pb "github.com/lfigueiredo82/klever/internal/pkg/core/model"
 	"github.com/lfigueiredo82/klever/pkg/vote_server/config"
@@ -13,13 +14,11 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var (
-	addr = flag.String("addr", config.DefaultHost()+":50051", "the address to connect to")
-)
-
 func main() {
-
+	godotenv.Load()
+	addr := flag.String("addr", config.DefaultHost()+":50051", "the address to connect to")
 	flag.Parse()
+	println(*addr)
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {

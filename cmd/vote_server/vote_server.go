@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/joho/godotenv"
 	pb "github.com/lfigueiredo82/klever/internal/pkg/core/model"
 	"github.com/lfigueiredo82/klever/pkg/vote_server/config"
 	"github.com/lfigueiredo82/klever/pkg/vote_server/services"
@@ -13,11 +14,11 @@ import (
 )
 
 var (
-	port = flag.Int("port", 50051, "The server port")
+	port = flag.Int("port", 80, "The server port")
 )
 
 func main() {
-
+	godotenv.Load()
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.DefaultHost(), *port))
 	if err != nil {
