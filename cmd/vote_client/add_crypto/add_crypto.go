@@ -9,13 +9,14 @@ import (
 	"github.com/joho/godotenv"
 	assets "github.com/lfigueiredo82/klever/cmd/vote_client/add_crypto/dependencies"
 	pb "github.com/lfigueiredo82/klever/internal/pkg/core/model"
+	"github.com/lfigueiredo82/klever/pkg/vote_server/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
 	godotenv.Load()
-	addr := flag.String("addr", "klever-votes.herokuapp.com:50051", "the address to connect to")
+	addr := flag.String("addr", config.DefaultHost()+":50051", "the address to connect to")
 	flag.Parse()
 	println(*addr)
 	// Set up a connection to the server.

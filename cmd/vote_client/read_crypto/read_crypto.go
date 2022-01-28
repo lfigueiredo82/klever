@@ -15,12 +15,9 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
-var (
-	addr = flag.String("addr", config.DefaultHost()+":50051", "the address to connect to")
-)
-
 func main() {
 	godotenv.Load()
+	addr := flag.String("addr", config.DefaultHost()+":50051", "the address to connect to")
 	flag.Parse()
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
